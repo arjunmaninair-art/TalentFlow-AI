@@ -1,0 +1,15 @@
+# Virtual Environments
+myvenv/
+.venv/
+venv/
+ENV/
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# ML Model files (Large binaries shouldn't go to Git)
+*.joblib
+
+# OS files
+.DS_Store
