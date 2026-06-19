@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 from groq import Groq
+from dotenv import load_dotenv
 
 # 1. Initialize FastAPI instance
 app = FastAPI(
@@ -11,10 +12,14 @@ app = FastAPI(
     description="Uses Scikit-Learn to screen candidates and Groq LPU to draft recruiter outreach emails."
 )
 
-# 2. Initialize Groq Client
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
-groq_client = Groq(api_key=GROQ_API_KEY)
+load_dotenv()
 
+# 2. Initialize Groq Client safely using environment variables
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    raise ValueError("❌ GROQ_API_KEY environment variable is missing!")
+
+groq_client = Groq(api_key=GROQ_API_KEY)
 # 3. Load the saved Scikit-Learn model globally
 try:
     model = joblib.load('recruiter_model.joblib')
